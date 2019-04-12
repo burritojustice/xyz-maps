@@ -124,7 +124,8 @@ global:
 
 sources:
     _graticules:
-        url: https://xyz.api.here.com/hub/spaces/FTfm9JlZ/tile/web/{z}_{x}_{y}
+        # url: https://xyz.api.here.com/hub/spaces/FTfm9JlZ/tile/web/{z}_{x}_{y}
+        url: https://xyz.api.here.com/hub/spaces/FTfm9JlZ/search
         type: GeoJSON
         url_params: 
             access_token: AJdhul6BkOln0jMUgQSzGkk
@@ -132,7 +133,7 @@ sources:
             # limit: 50000 # 
             clip: true
     _lines:
-        url: https://xyz.api.here.com/hub/spaces/T4NTb7RU/tile/web/{z}_{x}_{y}
+        url: https://xyz.api.here.com/hub/spaces/T4NTb7RU/search
         type: GeoJSON
         url_params: 
             access_token: AJdhul6BkOln0jMUgQSzGkk
@@ -141,7 +142,7 @@ sources:
             clip: true
             
     _points:
-        url: https://xyz.api.here.com/hub/spaces/UuFaTkny/tile/web/{z}_{x}_{y}
+        url: https://xyz.api.here.com/hub/spaces/UuFaTkny/search
         type: GeoJSON
         url_params: 
             access_token: AJdhul6BkOln0jMUgQSzGkk
@@ -305,7 +306,7 @@ layers:
                 # color: blue
                 # color: global.color_hash
                 # outline: global.highlight
-                width: 1px
+                width: [[3,0.5px],[12,1px]]
                 order: 1000
                 # size: 5px
                 # size: |
