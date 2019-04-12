@@ -1,0 +1,387 @@
+import:
+    - https://www.nextzen.org/carto/refill-style/refill-style.zip
+    # - https://www.nextzen.org/carto/refill-style/themes/color-gray-gold.zip
+    # - https://www.nextzen.org/carto/refill-style/themes/color-inverted.zip    
+    - https://s3.amazonaws.com/xyz-demo/data/demo.yaml
+    - https://www.nextzen.org/carto/refill-style/11/themes/label-4.zip
+    # - https://www.nextzen.org/carto/refill-style/themes/terrain-shading.zip
+    - https://www.nextzen.org/carto/refill-style/11/themes/terrain-shading-dark.zip
+
+global:
+    color_polygons: |
+        function(){
+            var color
+            if (feature.color){
+                color = feature.color
+                }
+            else{color = [1,0,1,0.3]}
+            return color
+            }
+            
+    color_lines: |
+        function(){
+            var color
+            if (feature.color){
+                color = feature.color
+                }
+            else{color = [1,1,0,0.3]}
+            return color
+            }
+            
+    color_lines_light_base_map: |
+        function(){
+            var color
+            if (feature.color){
+                color = feature.color
+                }
+            else{color = [1,0,0,0.5]}
+            return color
+            }
+            
+            
+    highlight: 
+        color: [1,1,1,0.25]
+        width: 2px
+
+            
+    color_points: |
+        function(){
+            var color
+            if (feature.color){
+                color = feature.color
+            }
+            else {
+                color = [1,0,0,0.5]
+            }
+            return color
+        }
+
+    color_points_light_base_map: |
+        function(){
+            var color
+            if (feature.color){
+                color = feature.color
+            }
+            else {
+                color = [0,0,1,0.5]
+            }
+            return color
+        }
+
+    color_hash: |
+        function(){
+            var props = (JSON.stringify(feature))
+            var hash = 0, i, chr;
+            if (props === 0){hash = 0};
+            for (i = 0; i < props.length; i++) {
+                chr   = props.charCodeAt(i);
+                hash  = ((hash << 5) - hash) + chr;
+                hash |= 0; // Convert to 32bit integer
+            }
+            var color = 'hsla(' + hash + ', 100%, 50%, 0.75)'
+            return color
+        }
+
+    property_hash_name: postalcode
+        
+    var_property_color_hash: |
+        function(){
+            var x = ''
+            var prop = global.property_hash_name
+            if (feature[prop]){
+                x = feature[prop]
+                }
+            var props = JSON.stringify(x)
+            var hash = 0, i, chr;
+            if (props === 0){hash = 0};
+            for (i = 0; i < props.length; i++) {
+                chr   = props.charCodeAt(i);
+                hash  = ((hash << 5) - hash) + chr;
+                hash |= 0; // Convert to 32bit integer
+            }
+            var color = 'hsla(' + hash + ', 100%, 50%, 0.75)'
+            return color
+        }
+
+    fixed_property_color_hash: |
+        function(){
+            var x = ''
+            var prop = global.property_hash_name // 'TRAJUNCTYP'
+            if (feature[prop]){
+                x = feature[prop]
+                }
+            var props = JSON.stringify(x)
+            var hash = 0, i, chr;
+            if (props === 0){hash = 0};
+            for (i = 0; i < props.length; i++) {
+                chr   = props.charCodeAt(i);
+                hash  = ((hash << 5) - hash) + chr;
+                hash |= 0; // Convert to 32bit integer
+            }
+            var color = 'hsla(' + hash + ', 100%, 50%, 0.75)'
+            return color
+        }
+
+sources:
+    _graticules:
+        url: https://xyz.api.here.com/hub/spaces/FTfm9JlZ/tile/web/{z}_{x}_{y}
+        type: GeoJSON
+        url_params: 
+            access_token: AJdhul6BkOln0jMUgQSzGkk
+            # tags: YOUR_TAG
+            # limit: 50000 # 
+            clip: true
+    _lines:
+        url: https://xyz.api.here.com/hub/spaces/T4NTb7RU/tile/web/{z}_{x}_{y}
+        type: GeoJSON
+        url_params: 
+            access_token: AJdhul6BkOln0jMUgQSzGkk
+            # tags: YOUR_TAG
+            # limit: 50000 # 
+            clip: true
+            
+    _points:
+        url: https://xyz.api.here.com/hub/spaces/UuFaTkny/tile/web/{z}_{x}_{y}
+        type: GeoJSON
+        url_params: 
+            access_token: AJdhul6BkOln0jMUgQSzGkk
+            # tags: YOUR_TAG
+            # limit: 50000 # 
+            clip: true
+    
+    _xyzspace:
+        url: https://xyz.api.here.com/hub/spaces/lZwGrrqt/tile/web/{z}_{x}_{y}
+        type: GeoJSON
+        url_params: 
+            access_token: AUi5nIouXt9wmg8KO5SPH0Q
+            # tags: YOUR_TAG
+            # limit: 50000 # 
+            clip: true
+    _zip:
+        url: https://xyz.api.here.com/hub/spaces/eRusnLVj/tile/web/{z}_{x}_{y}
+        type: GeoJSON
+        url_params: 
+            access_token: AYCAaHYYWntibAK4RqKHBBE
+            # tags: YOUR_TAG
+            # limit: 50000 # 
+            clip: true
+        
+styles:
+    _points:
+        base: points
+        blend: overlay
+        blend_order: 10
+    _text:
+        base: text
+        blend: overlay
+        blend_order: 11
+    _lines:
+        base: lines
+        blend: overlay
+        blend_order: 1
+    _lines_low:
+        base: lines
+        blend: inlay
+        blend_order: 2
+    _polygons_inlay:
+        base: polygons
+        blend: inlay
+        blend_order: 1
+    _polygons_overlay:
+        base: polygons
+        blend: overlay
+        blend_order: 1
+        
+        
+        
+layers:
+    # _zip:
+    #     data: {source: _zip}
+    #     draw: 
+    #         lines:
+            
+
+    _xyz_dots:
+        filter: {$geometry: point}
+        # enabled: false
+        data: {source: _points}
+        draw:
+            points:
+                interactive: true
+                collide: false
+                # color: |
+                #     function(){
+                #         var color
+                #         if (feature.color){
+                #             color = feature.color
+                #             }
+                #         else{color = [1,0,0,0.5]}
+                #         return color
+                #     }
+                color: white
+                outline:
+                    color: green
+                    width: 2px
+                # color: global.fixed_property_color_hash
+                # color: global.var_property_color_hash
+
+#                color: | 
+#                    function(){
+#                        var pi = 3.14159
+#                        var zoom = pi - $zoom/20
+#                        var opacity = Math.cos(zoom)
+#                        return [1,0,0,opacity]
+#                    }
+                size: [[3,3px],[10,15px]]
+                # size: |
+                #     function(){
+                #         return feature.location.count()
+                #         }
+                text:
+                    # text_source: NUMBER
+                    font:
+                        fill: red
+                        size: 12px
+                        # stroke:
+                        #     color: white
+                        #     width: 2px
+                # outline:
+                #     color: [1,1,0,0.2]
+                #     width: .1px
+    _xyz_lines:
+        # filter: {$geometry: line}
+#        enabled: false
+        data: {source: _lines}
+        # filter: {kind: point}
+        draw:
+            _lines:
+                interactive: true
+                # collide: false
+                color: |
+                    function(){
+                        var color
+                        if (feature.color){
+                            color = feature.color
+                            }
+                        else{color = [1,1,0,0.3]}
+                        return color
+                        }
+                color: green
+                # color: global.color_hash
+                outline: 
+                    color: white
+                    width: 2px
+                width: [[3,2px],[10,6px]]
+                order: 2000
+                # size: 5px
+                # size: |
+                #     function(){
+                #         return 30 - (feature.scalerank * 4)
+                #         }
+            text:
+                text_source: GEOID10
+                font:
+                    fill: yellow
+                    size: 12px                
+        
+    _graticules:
+        # filter: {$geometry: line}
+#        enabled: false
+        data: {source: _graticules}
+        # filter: {kind: point}
+        draw:
+            _lines:
+                interactive: true
+                # collide: false
+                color: |
+                    function(){
+                        var color
+                        if (feature.degrees == 0){
+                            color = 'red'
+                            }
+                        else{color = 'blue'}
+                        return color
+                        }
+                # color: blue
+                # color: global.color_hash
+                # outline: global.highlight
+                width: 1px
+                order: 1000
+                # size: 5px
+                # size: |
+                #     function(){
+                #         return 30 - (feature.scalerank * 4)
+                #         }
+            text:
+                text_source: display
+                font:
+                    fill: |
+                        function(){
+                            var color
+                            if (feature.degrees == 0){
+                                color = 'red'
+                                }
+                            else{color = 'blue'}
+                            return color
+                            }
+                    # fill: blue
+                    size: 12px  
+                    stroke:
+                        color: white
+                        width: 3px
+            
+    _xyz_polygons:
+        filter: {$geometry: polygon}
+        # enabled: false
+        data: {source: _xyzspace}
+        # filter: |
+        #     function(){
+        #         if (feature.min_zoom){
+        #             if(feature.min_zoom < $zoom){return true}
+        #             }
+        #         }
+        _outlines:
+            enabled: false
+            draw:
+                _lines:
+                    # collide: false
+                    color: [0,1,1,0.35]
+                    width: 1px
+                    order: 2000
+        draw:
+            #polygons:
+            _polygons_inlay:
+                interactive: true
+                # collide: false
+                # color: |
+                #     function(){
+                #         var color
+                #         if (feature.color){
+                #             color = feature.color
+                #             }
+                #         else{color = [1,0,1,0.3]}
+                #         return color
+                #         }
+                # color:  [1,0,1,0.3]
+                color: global.var_property_color_hash
+                width: 2px
+                order: 400
+                # size: 5px
+                # size: |
+                #     function(){
+                #         return 30 - (feature.scalerank * 4)
+                #         }
+            text:
+#                text_source: label
+                text_source: |
+                    function(){
+                        return feature.name || feature.NAME
+                    }
+                font:
+                    fill: grey
+                    size: 12px
+                    stroke:
+                        color: black
+                        width: 2px
+
+                    
