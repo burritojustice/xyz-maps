@@ -333,7 +333,7 @@ layers:
             
     _xyz_polygons:
         filter: {$geometry: polygon}
-        # enabled: false
+        enabled: false
         data: {source: _xyzspace}
         # filter: |
         #     function(){
