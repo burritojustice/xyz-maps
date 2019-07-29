@@ -8,129 +8,8 @@ import:
     - https://www.nextzen.org/carto/refill-style/11/themes/terrain-shading-dark.zip
     - https://s3.amazonaws.com/xyz-demo/scenes/viridis.yaml
 
-global:
-    color_polygons: |
-        function(){
-            var color
-            if (feature.color){
-                color = feature.color
-                }
-            else{color = [1,0,1,0.3]}
-            return color
-            }
-            
-    color_lines: |
-        function(){
-            var color
-            if (feature.color){
-                color = feature.color
-                }
-            else{color = [1,1,0,0.3]}
-            return color
-            }
-            
-    color_lines_light_base_map: |
-        function(){
-            var color
-            if (feature.color){
-                color = feature.color
-                }
-            else{color = [1,0,0,0.5]}
-            return color
-            }
-            
-            
-    highlight: 
-        color: [1,1,1,0.25]
-        width: 2px
 
-            
-    color_points: |
-        function(){
-            var color
-            if (feature.color){
-                color = feature.color
-            }
-            else {
-                color = [1,0,0,0.5]
-            }
-            return color
-        }
 
-    color_points_light_base_map: |
-        function(){
-            var color
-            if (feature.color){
-                color = feature.color
-            }
-            else {
-                color = [0,0,1,0.5]
-            }
-            return color
-        }
-
-    color_hash: |
-        function(){
-            var props = (JSON.stringify(feature))
-            var hash = 0, i, chr;
-            if (props === 0){hash = 0};
-            for (i = 0; i < props.length; i++) {
-                chr   = props.charCodeAt(i);
-                hash  = ((hash << 5) - hash) + chr;
-                hash |= 0; // Convert to 32bit integer
-            }
-            var color = 'hsla(' + hash + ', 100%, 50%, 0.75)'
-            return color
-        }
-
-    property_hash_name: TRAJUNCTYP
-        
-    var_property_color_hash: |
-        function(){
-            var x = ''
-            var prop = global.property_hash_name
-            if (feature[prop]){
-                x = feature[prop]
-                }
-            // console.log('feature.prop',x)
-
-            var props = JSON.stringify(x)
-            var hash = 0, i, chr;
-            if (props === 0){hash = 0};
-            for (i = 0; i < props.length; i++) {
-                chr   = props.charCodeAt(i);
-                hash  = ((hash << 5) - hash) + chr;
-                hash |= 0; // Convert to 32bit integer
-            }
-            var color = 'hsla(' + hash + ', 100%, 50%, 0.75)'
-            return color
-        }
-
-    fixed_property_color_hash: |
-        function(){
-            var x = ''
-            var prop = global.property_hash_name // 'TRAJUNCTYP'
-            if (feature[prop]){
-                x = feature[prop]
-                }
-            var props = JSON.stringify(x)
-            var hash = 0, i, chr;
-            if (props === 0){hash = 0};
-            for (i = 0; i < props.length; i++) {
-                chr   = props.charCodeAt(i);
-                hash  = ((hash << 5) - hash) + chr;
-                hash |= 0; // Convert to 32bit integer
-            }
-            var color = 'hsla(' + hash + ', 100%, 50%, 0.75)'
-            return color
-        }
-        
-    virids_color_range: |
-        function(range){
-            var color
-            var color = global.viridis[viridis]
-            return color
-        }
 
 sources:
     _xyzspace:
@@ -197,21 +76,10 @@ layers:
             _host:
                 interactive: true
                 collide: false
-                # color: |
-                #     function(){
-                #         var color
-                #         if (feature.color){
-                #             color = feature.color
-                #             }
-                #         else{color = [1,0,0,0.5]}
-                #         return color
-                #     }
+
 
                 size: 236px
-                # size: |
-                #     function(){
-                #         return feature.location.count()
-                #         }
+
                 # text:
                 #     # text_source: NUMBER
                 #     font:
@@ -242,8 +110,7 @@ layers:
                         return color
                         }
                 # color: white
-                # color: global.color_hash
-                # outline: global.highlight
+
                 width: 4px
                 order: 2000
                 # size: 5px
@@ -292,14 +159,9 @@ layers:
                         return color
                         }
                 # color:  [1,0,1,0.3]
-                # color: global.color_hash
                 width: 2px
                 order: 300
-                # size: 5px
-                # size: |
-                #     function(){
-                #         return 30 - (feature.scalerank * 4)
-                #         }
+
 #             text:
 # #                text_source: label
 #                 text_source: |
