@@ -24,75 +24,70 @@
         {
           zoom: 14,
           center: { lng: -76.37, lat: 37.13 }
-        });
-        // provided that the platform and the map are instantiated.
-        
-        // Enable the event system on the map instance:
+        }
+      );
+      // provided that the platform and the map are instantiated.
 
-        var mapEvents = new H.mapevents.MapEvents(map);
+      // Enable the event system on the map instance:
 
-        // Add event listeners:
-        map.addEventListener('tap', function(evt) {
-            // Log 'tap' and 'mouse' events:
-            console.log(evt.type, evt.currentPointer.type);
-        });
+// ? (index):32 Uncaught TypeError: Cannot read property 'MapEvents' of undefined
 
-        // Instantiate the default behavior, providing the mapEvents object:
-        var behavior = new H.mapevents.Behavior(mapEvents);
-      
-        // add XYZ layer
-        const service = platform.getXYZService({
-          token: 'AFwuEjwjTKCaGxJZBvo3yQA',
-        });
+      // Instantiate the default behavior, providing the mapEvents object:
+      var behavior = new H.mapevents.Behavior(mapEvents);
 
-        // create a provider for the custom user defined data
-        const customSpaceProvider = new H.service.xyz.Provider(service, 'OmxkjhzN');
-        const customSpaceLayer = new H.map.layer.TileLayer(customSpaceProvider);
-      
-        // get the style for the layer
-        var style = customSpaceProvider.getStyle();
+      // add XYZ layer
+      const service = platform.getXYZService({
+        token: 'AFwuEjwjTKCaGxJZBvo3yQA',
+      });
 
-        // change the color of the polygons
-        style.setProperty('layers.xyz.polygons.draw.polygons.color', 'rgba(1,0,0,0.25)');
+      // create a provider for the custom user defined data
+      const customSpaceProvider = new H.service.xyz.Provider(service, 'OmxkjhzN');
+      const customSpaceLayer = new H.map.layer.TileLayer(customSpaceProvider);
 
-        style.setInteractive(['xyz'], true);
-        customSpaceProvider.addEventListener('tap', (evt) => {console.log(evt.target.getData())});
+      // get the style for the layer
+      var style = customSpaceProvider.getStyle();
 
-        // make the objects within the provider interactive
-        style.setInteractive(['xyz'], true);
+      // change the color of the polygons
+      style.setProperty('layers.xyz.polygons.draw.polygons.color', 'rgba(1,0,0,0.25)');
 
-        // add an event listener to the provider
-        // the event listener outputs into the console the data associated 
-        // with the object
-        customSpaceProvider.addEventListener('tap', (evt) => {
-          console.log(evt.target.getData())
-        });
-      
-        // set the configuration for the label display
-        style.setProperty('layers.xyz.labels', {
-          draw: {
-            text: {
-              text_source: 'properties.YEARBUILT',
-              // collide: false,
-              priority: 0,
-              font: {
-                size: '14px',
-                fill: 'blue',
-                stroke: {
-                  color: 'white',
-                  width: '1px'
-                }
+      style.setInteractive(['xyz'], true);
+      customSpaceProvider.addEventListener('tap', (evt) => {console.log(evt.target.getData())});
+
+      // make the objects within the provider interactive
+      style.setInteractive(['xyz'], true);
+
+      // add an event listener to the provider
+      // the event listener outputs into the console the data associated 
+      // with the object
+      customSpaceProvider.addEventListener('tap', (evt) => {
+        console.log(evt.target.getData())
+      });
+
+      // set the configuration for the label display
+      style.setProperty('layers.xyz.labels', {
+        draw: {
+          text: {
+            text_source: 'properties.YEARBUILT',
+            // collide: false,
+            priority: 0,
+            font: {
+              size: '14px',
+              fill: 'blue',
+              stroke: {
+                color: 'white',
+                width: '1px'
               }
             }
           }
-        });
-      
-      
+        }
+      });
 
-      
-        // add a layer to the map
-      
-        map.addLayer(customSpaceLayer);
+
+
+
+      // add a layer to the map
+
+      map.addLayer(customSpaceLayer);
     </script>
   </body>
 </html>
