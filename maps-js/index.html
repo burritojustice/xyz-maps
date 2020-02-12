@@ -55,7 +55,7 @@
 
       // change the color of the polygons
       style.setProperty('layers.xyz.polygons.draw.polygons.color', 'rgba(255,0,0,0.25)');
-      style.setProperty('layers.xyz.polygons.draw.polygons.order', 10);
+      style.setProperty('layers.xyz.polygons.draw.polygons.order', 1);
       
       style.setInteractive(['xyz'], true);
       customSpaceProvider.addEventListener('tap', (evt) => {console.log(evt.target.getData())});
