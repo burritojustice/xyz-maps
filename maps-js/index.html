@@ -40,7 +40,7 @@
         var style = customSpaceProvider.getStyle();
 
         // change the color of the polygons
-        style.setProperty('layers.xyz.polygons.draw.polygons.color', 'rgba(1,0,0,0.5');
+        style.setProperty('layers.xyz.polygons.draw.polygons.color', 'rgba(1,0,0,0.25)';
 
         style.setInteractive(['xyz'], true);
         customSpaceProvider.addEventListener('tap', (evt) => {console.log(evt.target.getData())});
