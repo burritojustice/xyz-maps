@@ -40,7 +40,7 @@
         var style = customSpaceProvider.getStyle();
 
         // change the color of the polygons
-//         style.setProperty('layers.xyz.polygons.draw.polygons.color', 'red');
+        style.setProperty('layers.xyz.polygons.draw.polygons.color', 'rgba(1,0,0,0.5');
 
         style.setInteractive(['xyz'], true);
         customSpaceProvider.addEventListener('tap', (evt) => {console.log(evt.target.getData())});
@@ -56,10 +56,10 @@
         });
       
       
-        var style = buildingsSpaceProvider.getStyle();
+        var style = customSpaceProvider.getStyle();
 
         // set the configuration for the label display
-        buildingsSpaceLayer.getProvider().getStyle().setProperty('layers.xyz.labels', {
+        customSpaceProvider.getProvider().getStyle().setProperty('layers.xyz.labels', {
           draw: {
             text: {
               text_source: 'properties.YEARBUILT',
