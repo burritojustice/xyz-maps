@@ -26,6 +26,8 @@
           center: { lng: -76.3798, lat: 37.1343 }
         });
         // provided that the platform and the map are instantiated.
+      
+      
         const service = platform.getXYZService({
           token: 'AFwuEjwjTKCaGxJZBvo3yQA',
         });
@@ -33,6 +35,36 @@
         // create a provider for the custom user defined data
         const customSpaceProvider = new H.service.xyz.Provider(service, 'OmxkjhzN');
         const customSpaceLayer = new H.map.layer.TileLayer(customSpaceProvider);
+      
+        // get the style for the layer
+        var style = customSpaceProvider.getStyle();
+
+        // change the color of the polygons
+        style.setProperty('layers.xyz.polygons.draw.polygons.color', 'red');
+
+        style.setInteractive(['xyz'], true);
+        customSpaceProvider.addEventListener('tap', (evt) => {console.log(evt.target.getData())});
+
+        // make the objects within the provider interactive
+        style.setInteractive(['xyz'], true);
+
+        // add an event listener to the provider
+        // the event listener outputs into the console the data associated 
+        // with the object
+        customSpaceProvider.addEventListener('tap', (evt) => {
+          console.log(evt.target.getData())
+        });
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
         // add a layer to the map
         map.addLayer(customSpaceLayer);
     </script>
