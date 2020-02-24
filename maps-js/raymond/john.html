@@ -43,11 +43,11 @@
 
       // add XYZ layer
       const service = platform.getXYZService({
-        token: 'AFwuEjwjTKCaGxJZBvo3yQA',
+        token: 'AFJj375eSbmD0w3reC4aGQA',
       });
 
       // create a provider for the custom user defined data
-      const customSpaceProvider = new H.service.xyz.Provider(service, 'OmxkjhzN');
+      const customSpaceProvider = new H.service.xyz.Provider(service, '73KBVoD8');
       const customSpaceLayer = new H.map.layer.TileLayer(customSpaceProvider);
 
       // get the style for the layer
@@ -73,23 +73,23 @@
       });
 
       // set the configuration for the label display
-      style.setProperty('layers.xyz.labels', {
-        draw: {
-          text: {
-            text_source: 'properties.YEARBUILT',
-            // collide: false,
-            priority: 0,
-            font: {
-              size: '14px',
-              fill: 'blue',
-              stroke: {
-                color: 'white',
-                width: '1px'
-              }
-            }
-          }
-        }
-      });
+//       style.setProperty('layers.xyz.labels', {
+//         draw: {
+//           text: {
+//             text_source: 'properties.YEARBUILT',
+//             // collide: false,
+//             priority: 0,
+//             font: {
+//               size: '14px',
+//               fill: 'blue',
+//               stroke: {
+//                 color: 'white',
+//                 width: '1px'
+//               }
+//             }
+//           }
+//         }
+//       });
 
 
 
