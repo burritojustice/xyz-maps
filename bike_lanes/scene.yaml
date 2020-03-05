@@ -1,0 +1,346 @@
+import:
+  - 'https://raw.githubusercontent.com/sensescape/xyz-pixel/master/scene.yaml'
+  - 'https://quadbins--xyz-space-invader.netlify.com/tangram_xyz_scene.yaml'
+global:
+  featureLabelFont:
+    fill: darkred
+    size: 12px
+    stroke:
+      color: white
+      width: 4px
+  vizModes:
+    range:
+      label: value range
+      useProperty: true
+      usePalette: true
+      limitRange: true
+      defaultSort: values
+      value: "function (value, viz) {\n\t      // produces a value between 0-1 for the current feature value\n\t      var min = viz.featurePropMinFilter;\n\t      var max = viz.featurePropMaxFilter;\n\t      var delta = max - min;\n\t      var number = viz.vizHelpers.parseNumber(value);\n\n\t      if (min == null || max == null || typeof number !== 'number' || isNaN(number)) {\n\t        return null;\n\t      }\n\n\t      var ratio = (delta === 0 ? 1 : Math.max(Math.min(1 - ((max - number) / delta), 1), 0));\n\t      return ratio;\n\t    }"
+      color: "function (value, viz) {\n\t      // returns a color for the palette and feature value\n\t      var palette = viz.featurePropPalette;\n\t      var index = this.value(value, viz); // index into palette\n\t      if (index == null) {\n\t        return 'rgba(128, 128, 128, 0.5)'; // handle null/undefined values\n\t      }\n\t      return viz.vizHelpers.getPaletteColor(palette, index, 0.75, viz.featurePropPaletteFlip);\n\t    }"
+    rank:
+      label: value rank
+      useProperty: true
+      usePalette: true
+      defaultSort: count
+      value: "function (value, viz) {\n\t      // produces a value between 0-1 for the current feature value\n\t      var palette = viz.featurePropPalette;\n\t      var counts = (viz.featurePropValueCounts || []).filter(c => c[0] != null); // exclude nulls\n\t      var rank = counts.findIndex(c => c[0] === value);\n\n\t      if (rank === -1) {\n\t        return null;\n\t      }\n\n\t      var ratio; // number from 0-1 that maps to the palette color index to use\n\n\t      if (palette.type === 'categorical') {\n\t        // optional categorical assigment\n\t        if (rank < palette.values.length) {\n\t          ratio = rank / (palette.values.length-1); // assign the top values to a single color\n\t        }\n\t        else {\n\t          ratio = 1.01; // use value > 1 to signify out of range;\n\t        }\n\t      }\n\t      else {\n\t        // by default, interpolate through palette values\n\t        ratio = (counts.length <= 1 ? 1 : Math.max(Math.min(1 - (rank / (counts.length - 1)), 1), 0));\n\t      }\n\n\t      return ratio;\n\t    }"
+      color: "function (value, viz) {\n\t      // returns a color for the palette and feature value\n\t      var palette = viz.featurePropPalette;\n\t      var index = this.value(value, viz); // index into palette\n\t      if (index > 1) {\n\t        return 'rgba(255, 255, 255, 0.5)'; // bucket the remaining values as white\n\t      }\n\t      else if (index == null) {\n\t        return 'rgba(128, 128, 128, 0.5)'; // handle null/undefined values\n\t      }\n\t      return viz.vizHelpers.getPaletteColor(palette, index, 0.75, viz.featurePropPaletteFlip);\n\t    }"
+    property:
+      label: property hash
+      useProperty: true
+      usePalette: true
+      defaultSort: count
+      color: "function (value, viz) {\n\t      var palette = viz.featurePropPalette;\n\t      // cycle through all colors in a categorical palette, or 7 evenly spaced colors in any other palette\n\t      var palSize = (palette.type === 'categorical' ? palette.values.length : 7);\n\t      var hash = viz.vizHelpers.hashValue(value);\n\t      if (hash == null) {\n\t        return 'rgba(128, 128, 128, 0.5)'; // handle null/undefined values\n\t      }\n\t      var ratio = (hash % palSize) / (palSize - 1); // cycle through colors\n\t      return viz.vizHelpers.getPaletteColor(palette, ratio, 0.75, false);\n\t    }"
+    hash:
+      label: feature hash
+      useProperty: false
+      usePalette: false
+      color: "function (value, viz) {\n\t      var hash = viz.vizHelpers.hashValue(value);\n\t      if (hash == null) {\n\t        return 'rgba(128, 128, 128, 0.5)'; // handle null/undefined values\n\t      }\n\t      return 'hsla(' + hash + ', 100%, 50%, 0.75)';\n\t    }"
+    xray:
+      label: geometry type
+      useProperty: false
+      usePalette: false
+  xyz_access_token: AFwuEjwjTKCaGxJZBvo3yQA
+  sdk_api_key: DpCrhQqsR2igQPEINRTfcw
+  lookupFeatureLabelProp: |-
+    function(feature) {
+                  try {
+                    return feature['dir'];
+                  }
+                  catch(e) { return null; } // catches cases where some features lack nested property, or other errors
+                }
+  vizMode: rank
+  viz:
+    featureProp: last_edited_date
+    featurePropMinFilter: 20190504002925
+    featurePropMaxFilter: 20200219190754
+    featurePropPalette:
+      type: categorical
+      values:
+        - - 0.894
+          - 0.102
+          - 0.11
+        - - 0.216
+          - 0.494
+          - 0.722
+        - - 0.302
+          - 0.686
+          - 0.29
+        - - 0.596
+          - 0.306
+          - 0.639
+        - - 1
+          - 0.498
+          - 0
+        - - 1
+          - 1
+          - 0.2
+        - - 0.651
+          - 0.337
+          - 0.157
+        - - 0.969
+          - 0.506
+          - 0.749
+        - - 0.6
+          - 0.6
+          - 0.6
+    featurePropPaletteFlip: false
+    featurePropValueCounts:
+      - - '20190504002935'
+        - 42
+      - - '20190504002936'
+        - 39
+      - - '20190504002927'
+        - 37
+      - - '20190504003001'
+        - 37
+      - - '20190504002928'
+        - 34
+      - - '20190504002952'
+        - 31
+      - - '20190504002953'
+        - 31
+      - - '20190504002937'
+        - 30
+      - - '20190504002926'
+        - 29
+      - - '20190504002954'
+        - 28
+      - - '20190504003003'
+        - 28
+      - - '20190504003002'
+        - 24
+      - - '20190504002945'
+        - 20
+      - - '20190504003009'
+        - 20
+      - - '20190504002944'
+        - 17
+      - - '20190504002946'
+        - 17
+      - - '20190504003000'
+        - 12
+      - - '20190504002934'
+        - 11
+      - - '20190504002943'
+        - 7
+      - - '20190504002947'
+        - 6
+      - - '20190504002955'
+        - 6
+      - - '20190504002925'
+        - 3
+      - - '20190504002929'
+        - 2
+      - - '20190504003121'
+        - 2
+      - - '20190723213031'
+        - 2
+      - - '20191015221643'
+        - 2
+      - - '20191015234649'
+        - 2
+      - - '20191016003639'
+        - 2
+      - - '20191106011200'
+        - 2
+      - - '20191106012557'
+        - 2
+      - - '20200219190754'
+        - 2
+      - - '20190504003010'
+        - 1
+      - - '20191015221238'
+        - 1
+      - - '20191015221817'
+        - 1
+      - - '20191015222113'
+        - 1
+      - - '20191015222412'
+        - 1
+      - - '20191015222754'
+        - 1
+      - - '20191015222951'
+        - 1
+      - - '20191015223213'
+        - 1
+      - - '20191015223401'
+        - 1
+      - - '20191015233750'
+        - 1
+      - - '20191015233955'
+        - 1
+      - - '20191015234123'
+        - 1
+      - - '20191015234834'
+        - 1
+      - - '20191015235007'
+        - 1
+      - - '20191015235213'
+        - 1
+      - - '20191015235506'
+        - 1
+      - - '20191015235739'
+        - 1
+      - - '20191015235850'
+        - 1
+      - - '20191015235958'
+        - 1
+      - - '20191016000125'
+        - 1
+      - - '20191016000231'
+        - 1
+      - - '20191016000353'
+        - 1
+      - - '20191016000459'
+        - 1
+      - - '20191016003718'
+        - 1
+      - - '20191016184146'
+        - 1
+      - - '20191016191051'
+        - 1
+      - - '20191016191153'
+        - 1
+      - - '20191025003149'
+        - 1
+      - - '20191105220223'
+        - 1
+      - - '20191105220830'
+        - 1
+      - - '20191105221229'
+        - 1
+      - - '20191105222435'
+        - 1
+      - - '20191105222442'
+        - 1
+      - - '20191105222848'
+        - 1
+      - - '20191105223019'
+        - 1
+      - - '20191105223346'
+        - 1
+      - - '20191105223539'
+        - 1
+      - - '20191105233047'
+        - 1
+      - - '20191105233437'
+        - 1
+      - - '20191106010211'
+        - 1
+      - - '20191106010245'
+        - 1
+      - - '20191106010403'
+        - 1
+      - - '20191106010516'
+        - 1
+      - - '20191106011314'
+        - 1
+      - - '20191106012937'
+        - 1
+      - - '20191106012948'
+        - 1
+      - - '20191106013356'
+        - 1
+      - - '20191106013701'
+        - 1
+      - - '20191106014056'
+        - 1
+    featurePropHideOutliers: false
+    featurePropValue: ''
+    vizHelpers:
+      parseNumber: "function parseNumber(value) {\n\t  // don't bother parsing these\n\t  if (value == null || typeof value === 'object' || typeof value === 'boolean') {\n\t    return value;\n\t  }\n\t  else if (typeof value === 'number') {\n\t    return isNaN(value) ? undefined : value;\n\t  }\n\t  const n = value.replace(/[,\\/]/g, '').replace(/([0-9])\\-([0-9])/g, '$1$2'); \n\t  // ^ strip formatter chars, including interior dashes, forward slash, e.g. '1,500' => '1500' (NB only works for US-style numbers)\n\t  const m = n.match(/[-+]?([0-9]+,?)*\\.?[0-9]+/); // get floating point or integer via regex, keeping negative nums\n\t  const num = parseFloat(m && m[0]); \n\t  if (typeof num === 'number' && !isNaN(num)) {\n\t    return num;\n\t  }\n\t}"
+      hashValue: "function hashValue(value) {\n\t  if (typeof value !== 'string') {\n\t    value = (value === undefined ? 'undefined' : JSON.stringify(value));\n\t  }\n\n\t  if (['null', 'undefined'].indexOf(value) > -1) {\n\t    return null; // handle null/undefined values\n\t  }\n\n\t  let hash = 0, i, chr;\n\t  if (value === 0) { hash = 0; }  for (i = 0; i < value.length; i++) {\n\t    chr = value.charCodeAt(i);\n\t    hash = ((hash << 5) - hash) + chr;\n\t    hash |= 0; // Convert to 32bit integer\n\t  }\n\t  return hash;\n\t}"
+      getPaletteColor: "function getPaletteColor (palette, value, alpha = 1, flip = false) {\n\t    try {\n\t      value = Math.max(Math.min(value, 1), 0); // clamp to 0-1\n\n\t      if (flip) {\n\t        value = 1 - value; // optionally flip palette\n\t      }\n\n\t      // function-based palette\n\t      if (typeof palette.values === 'function') {\n\t        return palette.values(value, alpha);\n\t      }\n\t      // array-based palette\n\t      else {\n\t        const index = Math.round(value * (palette.values.length-1));\n\t        const color = palette.values[index];\n\t        return `rgba(${color.map(c => Math.floor(c * 255)).join(', ')}, ${alpha})`;\n\t      }\n\t    }\n\t    catch (e) {\n\t      return 'rgba(128, 128, 128, 0.5)';\n\t    }\n\t  }"
+  lookupFeatureProp: |-
+    function(feature) {
+                try {
+                  return feature['last_edited_date'];
+                }
+                catch(e) { return null; } // catches cases where some features lack nested property, or other errors
+              }
+  featureColorType: dynamic
+  featurePointSize: 6px
+sources:
+  mapzen:
+    url: 'https://xyz.api.here.com/tiles/osmbase/512/all/{z}/{x}/{y}.mvt'
+    url_params:
+      access_token: global.xyz_access_token
+  _xyzspace:
+    type: GeoJSON
+    url: 'https://xyz.api.here.com/hub/spaces/l4VgWnp1/tile/web/{z}_{x}_{y}?'
+    url_params:
+      access_token: AFwuEjwjTKCaGxJZBvo3yQA
+      clip: true
+layers:
+  buildings:
+    enabled: true
+    data: {}
+  _xyz_dots:
+    draw:
+      xyz_points:
+        text:
+          visible: true
+        outline:
+          width: 1px
+          color:
+            - 0.5
+            - 0.5
+            - 0.5
+            - 0.5
+    donut_points:
+      enabled: false
+  _xyz_polygons:
+    draw:
+      xyz_text:
+        visible: true
+      xyz_polygons:
+        order: 200
+    _outlines:
+      draw:
+        xyz_lines:
+          width: 1px
+          color:
+            - 0.5
+            - 0.5
+            - 0.5
+            - 0.5
+  _xyz_lines:
+    draw:
+      xyz_text:
+        visible: true
+      xyz_lines:
+        extrude: |
+            function(){return feature.last_edited_date.slice(-4)*10}
+        offset: |
+            function(){if (feature.dir == 'E'){return -5}; if (feature.dir == 'N'){return -5}}
+        width: 4px
+        outline:
+          width: 1px
+          color:
+            - 0.5
+            - 0.5
+            - 0.5
+            - 0.5
+  places:
+    enabled: true
+    data: {}
+  roads:
+    enabled: false
+    data: {}
+  pois:
+    enabled: false
+    data: {}
+styles:
+  xyz_pattern:
+    shaders:
+      uniforms:
+        u_pattern_color:
+          - 0.5176470588235295
+          - 0.7764705882352941
+          - 0.9764705882352941
+cameras:
+  camera1:
+    position:
+      - -122.44370506966887
+      - 37.73924486791735
+      - 15.704166666667835
