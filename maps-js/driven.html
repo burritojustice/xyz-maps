@@ -58,7 +58,7 @@
 //       style.setProperty('layers.xyz.polygons.draw.polygons', null); // this failed badly
 
 //       style.setProperty('layers.xyz.polygons.draw.polygons.order', 1);
-      style.setProperty('layers.xyz.lines.draw.lines.color', 'rgba(255,0,0,0.25)');
+      style.setProperty('layers.xyz.lines.draw.lines.color', 'rgba(0,255,255,0.75)');
       style.setInteractive(['xyz'], true);
       customSpaceProvider.addEventListener('tap', (evt) => {console.log(evt.target.getData())});
 
@@ -76,7 +76,7 @@
       style.setProperty('layers.xyz.labels', {
         draw: {
           text: {
-            text_source: 'properties.YEARBUILT',
+            text_source: 'properties.DRIVEN',
             // collide: false,
             priority: 0,
             font: {
