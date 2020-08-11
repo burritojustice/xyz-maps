@@ -12,19 +12,22 @@
     <div style="width: 100%; height: 100%" id="mapContainer"></div>
     <script>
       var query = new URLSearchParams(document.location.search);
+      console.table(query)
       var token
       var space
       if (query.token){
         token = query.token
       } else {
+        console.log('no token in URL')
         token = 'ALuBYZ-UQ0W-eaqep35iagA'
       }
       if (query.space){
         space = query.space
       } else {
+        console.log('no space in URL')
         space = 'aLQLD8am'
       }
-      
+      console.log(spacec,token)
       var url_hash = window.location.hash.slice(1, window.location.hash.length).split('/');
       var mapStartLocation = null
       if (url_hash.length == 3) {
@@ -85,21 +88,21 @@
       var style = customSpaceProvider.getStyle();
 
       // change the color of the polygons
-      style.setProperty('layers.xyz.polygons.draw.polygons.color', [0,255,0,0.25]);
+//       style.setProperty('layers.xyz.polygons.draw.polygons.color', [0,255,0,0.25]);
 //       style.setProperty('layers.xyz.polygons.draw.polygons', null); // this failed badly
 
 //       style.setProperty('layers.xyz.polygons.draw.polygons.order', 1);
       
       
-      style.setProperty('layers.xyz.lines.draw.lines.color', 'rgba(0,255,255,0.5)');
-      style.setProperty('layers.xyz.lines.draw.lines.width', '6px');
-      style.setProperty(
-        'layers.xyz.lines.draw.lines.outline', {
-          width: '1px',
-          color: 'blue'
-        });
-      style.setInteractive(['xyz'], true);
-      customSpaceProvider.addEventListener('tap', (evt) => {console.log(evt.target.getData())});
+//       style.setProperty('layers.xyz.lines.draw.lines.color', 'rgba(0,255,255,0.5)');
+//       style.setProperty('layers.xyz.lines.draw.lines.width', '6px');
+//       style.setProperty(
+//         'layers.xyz.lines.draw.lines.outline', {
+//           width: '1px',
+//           color: 'blue'
+//         });
+//       style.setInteractive(['xyz'], true);
+//       customSpaceProvider.addEventListener('tap', (evt) => {console.log(evt.target.getData())});
       
       style.setProperty('layers.xyz.points.draw.points.color', 'rgba(255,0,0,0.5)');
       style.setProperty('layers.xyz.points.draw.points.size', '4px');
