@@ -102,10 +102,11 @@
       customSpaceProvider.addEventListener('tap', (evt) => {console.log(evt.target.getData())});
       
       style.setProperty('layers.xyz.points.draw.points.color', 'rgba(255,0,0,0.5)');
+      style.setProperty('layers.xyz.points.draw.points.size', '4px');
       style.setProperty('layers.xyz.points.draw.points.outline.color', 'rgba(255,255,0,0.75)');
       style.setProperty('layers.xyz.points.draw.points.outline.width', '1px');
 
-      style.setInteractive(['xyz'], true);
+//       style.setInteractive(['xyz'], true);
       customSpaceProvider.addEventListener('tap', (evt) => {console.log(evt.target.getData())});
       // make the objects within the provider interactive
 
@@ -117,23 +118,23 @@
       });
 
       // set the configuration for the label display
-      style.setProperty('layers.xyz.labels', {
-        draw: {
-          text: {
-            text_source: 'properties.YEARBUILT',
-            // collide: false,
-            priority: 0,
-            font: {
-              size: '14px',
-              fill: 'blue',
-              stroke: {
-                color: 'white',
-                width: '1px'
-              }
-            }
-          }
-        }
-      });
+//       style.setProperty('layers.xyz.labels', {
+//         draw: {
+//           text: {
+//             text_source: 'properties.name',
+//             // collide: false,
+//             priority: 0,
+//             font: {
+//               size: '14px',
+//               fill: 'blue',
+//               stroke: {
+//                 color: 'white',
+//                 width: '1px'
+//               }
+//             }
+//           }
+//         }
+//       });
 
 
 
