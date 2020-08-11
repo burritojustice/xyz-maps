@@ -11,6 +11,37 @@
   <body>
     <div style="width: 100%; height: 100%" id="mapContainer"></div>
     <script>
+      var query = new URLSearchParams(document.location.search);
+      var token
+      var space
+      if (query.token){
+        token = query.token
+      } else {
+        token = 'ALuBYZ-UQ0W-eaqep35iagA'
+      }
+      if (query.space){
+        space = query.space
+      } else {
+        space = 'aLQLD8am'
+      }
+      
+      var url_hash = window.location.hash.slice(1, window.location.hash.length).split('/');
+      var mapStartLocation = null
+      if (url_hash.length == 3) {
+        mapStartLocation = {
+          lat: Number(url_hash[1]),
+          lng: Number(url_hash[2]),
+          zoom: Number(url_hash[0])
+        };
+      } else {
+        mapStartLocation = {
+          lat: 37.77,
+          lng: -122.42,
+          zoom: 14)
+        };
+      }
+      
+      
       // Initialize the platform object:
       var platform = new H.service.Platform({
         'apikey': 'snEfMGyDljv4DTLx_mtoErTzBZl4rQeJaHI-Z0hJ8Io'
@@ -24,8 +55,8 @@
         document.getElementById('mapContainer'),
         maptypes.vector.normal.map,
         {
-          zoom: 14,
-          center: { lng: -76.37, lat: 37.13 }
+          zoom: mapStartLocation.zoom,
+          center: { lng: mapStartLocation.lng, lat: mapStartLocation.lat }
         }
       );
 
@@ -43,27 +74,40 @@
 
       // add XYZ layer
       const service = platform.getXYZService({
-        token: 'AFwuEjwjTKCaGxJZBvo3yQA',
+        token: token,
       });
 
       // create a provider for the custom user defined data
-      const customSpaceProvider = new H.service.xyz.Provider(service, 'OmxkjhzN');
+      const customSpaceProvider = new H.service.xyz.Provider(service, space);
       const customSpaceLayer = new H.map.layer.TileLayer(customSpaceProvider);
 
       // get the style for the layer
       var style = customSpaceProvider.getStyle();
 
       // change the color of the polygons
-      style.setProperty('layers.xyz.polygons.draw.polygons.color', [0,0,0,0]);
+      style.setProperty('layers.xyz.polygons.draw.polygons.color', [0,255,0,0.25]);
 //       style.setProperty('layers.xyz.polygons.draw.polygons', null); // this failed badly
 
 //       style.setProperty('layers.xyz.polygons.draw.polygons.order', 1);
-      style.setProperty('layers.xyz.lines.draw.lines.color', 'rgba(255,0,0,0.25)');
+      
+      
+      style.setProperty('layers.xyz.lines.draw.lines.color', 'rgba(0,255,255,0.5)');
+      style.setProperty('layers.xyz.lines.draw.lines.width', '6px');
+      style.setProperty(
+        'layers.xyz.lines.draw.lines.outline', {
+          width: '1px',
+          color: 'blue'
+        });
       style.setInteractive(['xyz'], true);
       customSpaceProvider.addEventListener('tap', (evt) => {console.log(evt.target.getData())});
+      
+      style.setProperty('layers.xyz.points.draw.points.color', 'rgba(255,0,0,0.5)');
+      style.setProperty('layers.xyz.points.draw.points.outline.color', 'rgba(255,255,0,0.75)');
+      style.setProperty('layers.xyz.points.draw.points.outline.width', '1px');
 
-      // make the objects within the provider interactive
       style.setInteractive(['xyz'], true);
+      customSpaceProvider.addEventListener('tap', (evt) => {console.log(evt.target.getData())});
+      // make the objects within the provider interactive
 
       // add an event listener to the provider
       // the event listener outputs into the console the data associated 
