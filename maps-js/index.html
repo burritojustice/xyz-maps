@@ -96,18 +96,18 @@
 //       style.setProperty('layers.xyz.polygons.draw.polygons.order', 1);
       
       
-      style.setProperty('layers.xyz.lines.draw.lines.color', 'rgba(0,255,255,0.5)');
-      style.setProperty('layers.xyz.lines.draw.lines.width', '6px');
-      style.setProperty(
-        'layers.xyz.lines.draw.lines.outline', {
-          width: '1px',
-          color: 'blue'
-        });
-      style.setInteractive(['xyz'], true);
-      customSpaceProvider.addEventListener('tap', (evt) => {console.log(evt.target.getData())});
+//       style.setProperty('layers.xyz.lines.draw.lines.color', 'rgba(0,255,255,0.5)');
+//       style.setProperty('layers.xyz.lines.draw.lines.width', '6px');
+//       style.setProperty(
+//         'layers.xyz.lines.draw.lines.outline', {
+//           width: '1px',
+//           color: 'blue'
+//         });
+//       style.setInteractive(['xyz'], true);
+//       customSpaceProvider.addEventListener('tap', (evt) => {console.log(evt.target.getData())});
       
-//       style.setProperty('layers.xyz.points.draw.points.color', 'rgba(255,0,0,0.5)');
-//       style.setProperty('layers.xyz.points.draw.points.size', '4px');
+      style.setProperty('layers.xyz.points.draw.points.color', 'rgba(255,0,0,0.5)');
+      style.setProperty('layers.xyz.points.draw.points.size', '4px');
       style.setProperty('layers.xyz.points.draw.points.outline.color', 'rgba(255,255,0,0.75)');
       style.setProperty('layers.xyz.points.draw.points.outline.width', '1px');
 
