@@ -13,8 +13,8 @@
     <script>
       let query;
       query = new URLSearchParams(document.location.search);
-      console.log(document.location.search)
-      console.log(query)
+//       console.log(document.location.search)
+//       console.log(query)
       var token
       var space
       if (query.has('token')){
@@ -45,7 +45,7 @@
           zoom: 14
         };
       }
-      console.table(lat,lng,zoom)
+      console.table(mapStartLocation.lat,mapStartLocation.lng,mapStartLocation.zoom)
       
       // Initialize the platform object:
       var platform = new H.service.Platform({
