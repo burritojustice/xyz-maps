@@ -84,8 +84,8 @@
 
       // create a provider for the custom user defined data
       const customSpaceProvider = new H.service.xyz.Provider(service, space), {
-            tweaks = 'simplification',
-            ['tweaks.algorithm'] = 'gridbytilelevel' 
+            tweaks: 'simplification',
+            tweaks.algorithm: 'gridbytilelevel' 
       }
       const customSpaceLayer = new H.map.layer.TileLayer(customSpaceProvider);
 
