@@ -83,14 +83,14 @@
       });
 
       // create a provider for the custom user defined data
-      const customSpaceProvider = new H.service.xyz.Provider(service, space), 
+      const customSpaceProvider = new H.service.xyz.Provider(service, space, 
       {
         'parameters': {
             'mode': 'viz'
         }
 //             tweaks: 'simplification',
 //             tweaks.algorithm: 'gridbytilelevel' 
-      }
+      })
       const customSpaceLayer = new H.map.layer.TileLayer(customSpaceProvider);
 
       // get the style for the layer
