@@ -1,0 +1,219 @@
+import:
+    - https://raw.githubusercontent.com/sensescape/xyz-pixel-dark/master/scene.yaml
+    # - https://www.nextzen.org/carto/refill-style/refill-style.zip
+    # - https://www.nextzen.org/carto/refill-style/themes/color-gray-gold.zip
+    # # - https://www.nextzen.org/carto/refill-style/themes/color-inverted.zip
+    # - https://s3.amazonaws.com/xyz-demo/data/demo.yaml
+    # - https://www.nextzen.org/carto/refill-style/11/themes/label-4.zip
+    # # - https://www.nextzen.org/carto/refill-style/themes/terrain-shading.zip
+    # - https://www.nextzen.org/carto/refill-style/11/themes/terrain-shading-dark.zip
+
+
+
+
+sources:
+    xyz-osm:
+        type: MVT
+        url: https://xyz.api.here.com/tiles/osmbase/512/all/{z}/{x}/{y}.mvt
+        url_params:
+            access_token: AJW8Q_PjRZSsPfpbcT3yrAA
+
+    _billboards:
+        type: GeoJSON
+        url: https://xyz.api.here.com/hub/spaces/uQnCpXO2/tile/web/{z}_{x}_{y}
+        url_params:
+            access_token: AO7ynLsqRqqtTRCKsWYfZwA
+            margin:    0
+            clip:    true
+            limit: 100000
+            # tweaks: simplification
+            # tweaks.algorithm: gridbytilelevel
+            # tweaks.algorithm: grid
+            # tweaks.strength: low
+            # mode: viz
+        # max_zoom: 14
+        # min_display_zoom: 3
+        # max_display_zoom: 20
+        
+    _accidents:
+        type: GeoJSON
+        url: https://xyz.api.here.com/hub/spaces/cmFsX4l4/tile/web/{z}_{x}_{y}
+        url_params:
+            access_token: AO7ynLsqRqqtTRCKsWYfZwA
+            margin:    0
+            clip:    true
+            limit: 100000
+    _accidents_cluster:
+        type: GeoJSON
+        url: https://xyz.api.here.com/hub/spaces/cmFsX4l4/tile/web/{z}_{x}_{y}
+        url_params:
+            access_token: AO7ynLsqRqqtTRCKsWYfZwA
+            margin:    1
+            clip:    true
+            limit: 100000
+            clustering: hexbin
+            # clustering.absoluteResolution: 9
+            # clustering.relativeResolution: 1
+            clustering.pointmode: true
+    _billboards_cluster:
+        type: GeoJSON
+        url: https://xyz.api.here.com/hub/spaces/uQnCpXO2/tile/web/{z}_{x}_{y}
+        url_params:
+            access_token: AO7ynLsqRqqtTRCKsWYfZwA
+            margin:    0
+            clip:    true
+            limit: 100000
+            clustering: hexbin
+            # clustering.absoluteResolution: 9
+            # clustering.relativeResolution: 1
+            clustering.pointmode: true
+        # bounds: [-112.10076,40.75,-111.80829,40.82695] # [w, s, e, n]
+styles:
+    h3polygon:
+        base: polygons
+        blend: inlay
+        blend_order: 0
+
+    h3outline:
+        base: lines
+        blend: overlay
+        blend_order: 0
+
+    _polygons:
+        base: polygons
+        blend: inlay
+        blend_order: 0
+
+layers:
+    
+    _billboards:
+        data: { source: _billboards }
+        enabled: false
+
+        draw:
+        _points:
+            draw:
+                points: 
+                    size: function(){return Math.log10($zoom/2)+$zoom/2}
+                    color: [0,1,0,0.5]
+                    collide: false
+    _accidents:
+        data: { source: _accidents }
+        enabled: false
+
+        draw:
+        _points:
+            draw:
+                points: 
+                    size: function(){return Math.log10($zoom/2)+$zoom/2}
+                    color: [1,0,0,0]
+                    collide: false
+                    outline:
+                        color: red
+                        width: 1px
+    _billboards_h3d:
+        data: { source: _billboards_cluster }
+        # enabled: false
+        hexbins:
+            enabled: false
+            draw:
+                h3outline:
+                    order: 100
+                    color: [.7,.7,.7,.5]
+                    width: 1px
+                h3polygon:
+                    order: 50
+                    # color: [ 0.0, 0.7, 0.7, 0.7 ]
+                    color: |
+                      function(){
+                        var color = 50 -(Math.log(feature.aggregation.qty) * 20) 
+                        // console.log(color)
+                        hsla = 'hsla(' + color + ',100%, 50%, 0.5)'
+                        return hsla 
+                        }
+        label: 
+            # enabled: false
+            draw:
+                text:
+                    text_source: function() { return feature.aggregation.qty }
+                    collide: false
+                    optional: true
+                    anchor: right
+                    offset: [5px, 0px]
+                    font:
+                        family: Arial
+                        size: 9px
+                        weight: bold
+                        fill: gold
+                        stroke: { color: black, width: 2 }
+        h3centroids:
+            # enabled: false
+            draw:
+                points:
+                    collide: false
+                    size: function() { return Math.log(feature.aggregation.qty + 1) * 10 }
+                    color: [1,1,0,.35]
+                    # color: |
+                    #     function(){
+                    #         var color = (Math.log(feature.aggregation.qty) * 10) + 100
+                    #         // console.log(color)
+                    #         hsla = 'hsla(' + color + ',100%, 50%, 0.5)'
+                    #         return hsla 
+                    #         }
+                    outline:
+                        color: [1,1,0,0.25]
+                        width: 1px
+                    
+    _accidents_h3d:
+        data: { source: _accidents_cluster }
+        # enabled: false
+        hexbins:
+            enabled: false
+            draw:
+                h3outline:
+                    order: 99
+                    color: [.7,.7,.7,.5]
+                    width: 1px
+                h3polygon:
+                    order: 50
+                    # color: [ 0.0, 0.7, 0.7, 0.7 ]
+                    color: |
+                      function(){
+                        var color = 50 -(Math.log(feature.aggregation.qty) * 20) 
+                        // console.log(color)
+                        hsla = 'hsla(' + color + ',100%, 50%, 0.5)'
+                        return hsla 
+                        }
+        label: 
+            # enabled: false
+            draw:
+                text:
+                    text_source: function() { return feature.aggregation.qty }
+                    collide: false
+                    optional: true
+                    anchor: left
+                    offset: [-5px,0px]
+                    font:
+                        family: Arial
+                        size: 9px
+                        weight: bold
+                        fill: coral
+                        # fill: [.85,.5,0]
+                        stroke: { color: black, width: 2 }
+        h3centroids:
+            # enabled: false
+            draw:
+                points:
+                    collide: false
+                    size: function() { return Math.log(feature.aggregation.qty+ 2) * 10 }
+                    color: [1,0,0,.05]
+                    # color: |
+                    #     function(){
+                    #         var color = (Math.log(feature.aggregation.qty) * 10) + 100
+                    #         // console.log(color)
+                    #         hsla = 'hsla(' + color + ',100%, 50%, 0.5)'
+                    #         return hsla 
+                    #         }
+                    outline:
+                        color: [1,0,0,0.5]
+                        width: 2px
